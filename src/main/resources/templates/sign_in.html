@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html>
+<head>
+    <meta charset="">
+    <title>注册</title>
+    <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript">
+        $(function() {
+            //学号
+            $("#userid").blur(function() {
+                //对用户名进行验证
+                checkUserid("#userid", "#useridInfo");
+            }).focus(function() {
+                clearInfo("#useridInfo");
+            });
+            //验证
+            function checkUserid(id, info) {
+                var userid = $(id).val();
+
+                if(userid=="") {
+                    setInfo(info, "此信息不能为空！");
+                    return false;
+                }
+                return true;
+            }
+
+            //姓名
+            $("#username").blur(function() {
+                //对用户名进行验证
+                checkUsername("#username", "#usernameInfo");
+            }).focus(function() {
+                clearInfo("#usernameInfo");
+            });
+            //验证
+            function checkUsername(id, info) {
+                var username = $(id).val();
+
+                if(username=="") {
+                    setInfo(info, "此信息不能为空！");
+                    return false;
+                }
+                return true;
+            }
+
+            //密码
+            $("#pass").blur(function() {
+                //对密码进行验证
+                checkPassword("#pass", "#passInfo");
+            }).focus(function() {
+                clearInfo("#passInfo");
+            });
+            //验证
+            function checkPassword(id, info) {
+                var reg = /^[\d]{3,6}$/
+                var $pass = $(id).val();
+                if(!reg.test($pass)) {
+                    setInfo(info, "密码必须为3到6位数字");						                                return false;
+                }
+                return true;
+            }
+            //重复密码
+            $("#passwordAgain").blur(function() {
+                //对重复密码进行验证
+                checkPasswordAgain("#pass","#passwordAgain","#passwordAgainInfo");
+            }).focus(function() {
+                clearInfo("#passwordAgainInfo");
+            });
+            //验证
+            function checkPasswordAgain(pwd1, pwd2, info) {
+                var $pwd1 = $(pwd1).val();
+                var $pwd2 = $(pwd2).val();
+                if($pwd1 != $pwd2) {
+                    setInfo(info, "重复密码与原密码不一致");
+                    return false;
+                }
+                var reg = /^[\d]{3,6}$/;
+                if(!reg.test($pwd2)) {
+                    setInfo(info, "重复密码必须为3到6位数字");
+                    return false;
+                }
+                return true;
+            }
+
+            //邮箱
+            $("#email").blur(function() {
+                //对邮箱进行验证
+                checkEmail("#email", "#emailInfo");
+            }).focus(function() {
+                clearInfo("#emailInfo");
+            });
+            //验证
+            function checkEmail(id, info) {
+                var reg= /^\w+@\w+(\.[a-zA-Z]{2,3}){1,2}$/;
+
+                var $email = $(id).val();
+                if(!reg.test($email)) {
+                    setInfo(info, "邮箱格式不正确");
+                    return false;
+                }
+                return true;
+            }
+
+
+
+
+            //设置错误信息
+            function setInfo(id, info) {
+                $(id).text(info);
+            }
+            //清空错误信息
+            function clearInfo(id) {
+                $(id).text("");
+            }
+            //校验所有表单元素的内容
+            $("#form1").submit(function() {
+                return checkAll();
+            });
+            function checkAll() {
+
+                if(checkUsername('#username', '#usernameInfo')&&checkPassword('#pass', '#passInfo')&&checkPasswordAgain('#pass', '#passwordAgain', '#passwordAgainInfo')&&checkEmail('#email', '#emailInfo')) {
+                    return true;
+                }else
+                return false;
+            };
+        });
+    </script>
+<body>
+<form action="signin_affair" method="post" id="form1">
+    <table>
+        <tr>
+            <td>
+                <label>学号/职工号</label>
+            </td>
+            <td>
+                <input type="text" id="userid" placeholder="请输入学号/职工号" autofocus="autofocus" name="user_id"/></td>
+            <td>
+                <span id="useridInfo"></span>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <label>姓名</label>
+            </td>
+            <td>
+                <input type="text" id="username" placeholder="请输入姓名" autofocus="autofocus" name="user_name"/></td>
+            <td>
+                <span id="usernameInfo"></span>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <label>职称</label>
+            </td>
+            <td>
+                <input type="radio" name="user_type" value="0"  checked="checked" >学生
+                <input type="radio" name="user_type" value="1"  style='margin-left:50px'/>老师
+                <input type="radio" name="user_type" value="2"  style='margin-left:50px'/>管理员
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <label>密码</label>
+            </td>
+            <td>
+                <input type="password" id="pass" placeholder="请输入密码" name="user_pwd" />
+            </td>
+            <td>
+                <span id="passInfo"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>重复密码</label>
+            </td>
+            <td>
+                <input type="password" id="passwordAgain" placeholder="请再次输入密码" />
+            </td>
+            <td>
+                <span id="passwordAgainInfo"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>邮箱</label>
+            </td>
+            <td>
+                <input type="text" id="email" placeholder="请输入电子邮箱" name="email"/></td>
+            <td>
+                <span id="emailInfo"></span>
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="6">
+                <button type="submit">注册</button>
+            </td>
+        </tr>
+    </table>
+</form>
+<font th:text="${message}"></font>
+</body>
+</html>
+

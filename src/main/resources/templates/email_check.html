@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>邮箱验证页面</title>
+    <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript">
+        var check_code="";
+
+
+        /*将ajax获得的验证码和表单中的进行对比*/
+        function to_check() {
+            //获取表单中所填写的验证码
+            var check_no=document.getElementById("check_no").value;
+            if (check_code==check_no){
+                alert("验证码正确，注册成功，请重新登录！")
+
+                var email=document.getElementById("email").value;
+                var user_id=document.getElementById("user_id").value;
+                var user_pwd=document.getElementById("user_pwd").value;
+                var user_type=document.getElementById("user_type").value;
+                var user_name=document.getElementById("user_name").value;
+                //通过ajax调用控制器往数据库中插入所注册的数据
+                $.ajax({
+                    type : "post",
+                    url : "http://127.0.0.1:8080/insert_into_user_info",
+                    data : {"user_id":user_id,"user_name":user_name,"user_pwd":user_pwd,"user_type":user_type,"email":email},
+                    success : function (data) {
+
+                    }
+                })
+                return true;
+            }else {
+                alert("验证码错误，请重新输入！")
+                return false;
+            }
+        }
+
+        function send_check_no() {
+            var email=document.getElementById("email").value;
+            /*调用ajax去发送验证码*/
+            //调用ajax方法去删除redis里面的数据
+            $.ajax({
+                type : "post",
+                url : "http://127.0.0.1:8080/send_check_no",
+                data : {"email":email},
+                success : function (data) {
+                    alert("请注意查收验证码！")
+                    /*获取验证码*/
+                    check_code=data;
+                }
+            })
+        }
+
+    </script>
+</head>
+<body>
+<font th:text="'用户id：'+${user_id}"></font><br>
+<font th:text="'用户姓名：'+${user_name}"></font><br>
+<font th:text="'用户邮箱：'+${email}"></font>
+
+
+<!--hidden为隐藏域不在页面显示-->
+<input type="hidden" id="user_id" name="user_id" th:value="${user_id}">
+<input type="hidden" id="email" name="email" th:value="${email}">
+<input type="hidden" id="user_name" name="user_name" th:value="${user_name}">
+<input type="hidden" id="user_pwd" name="user_pwd" th:value="${user_pwd}">
+<input type="hidden" id="user_type" name="user_type" th:value="${user_type}">
+
+
+<form action="login" method="post" onsubmit="return to_check()">
+    <input type="text" id="check_no" name="check_no" placeholder="请输入验证码" required>
+    <!--通过js代码使用ajax调用后台去发送验证码-->
+    <a  onclick="send_check_no()"><button>发送邮箱验证码</button></a>
+    <button type="submit">验证</button>
+</form>
+
+</body>
+</html>

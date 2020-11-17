@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>用户登录</title>
+</head>
+<body>
+    <div>
+        <form action="check_login" method="post">
+            <input type="text" name="user_id" placeholder="用户名" required>
+            <input type="password" name="user_pwd" placeholder="密码" required>
+            <input type="radio" name="user_type" value="0"  checked="checked" >学生
+            <input type="radio" name="user_type" value="1"  style='margin-left:50px'/>老师
+            <input type="radio" name="user_type" value="2"  style='margin-left:50px'/>管理员
+            <button type="submit"style="height: 50px;">login </button>
+        </form>
+        <a href="/sign_in"><button>注册</button></a>
+    </div>
+</body>
+</html>
