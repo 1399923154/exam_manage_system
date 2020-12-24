@@ -1,0 +1,363 @@
+* {
+    padding: 0px;   /*内间距*/
+    margin:  0px;  /*外间距*/
+}
+html,body {
+    height:100%;
+    width:100%;
+
+    /* 设置body元素的背景图像：
+    background-image: linear-gradient(direction, color-stop1, color-stop2, ...); */
+    background-image:linear-gradient(120deg,#487eb0,#fbc531);
+
+    overflow:hidden; /*内容会被修剪，并且其余内容是不可见的。 */
+}
+
+/*--------------------------------------------------------*/
+.radio_btn {
+
+}
+
+.container{
+    height:650px;
+    width:750px;
+    margin-left: 300px;
+    /*R：红色值。正整数 | 百分数
+
+    G：绿色值。正整数 | 百分数
+    
+    B：蓝色值。正整数| 百分数
+    
+    A：透明度。取值0~1之间*/
+    background-color:rgba(255,255,255,.9);
+
+    /*居中*/
+    position:absolute;/*生成绝对定位的元素*/
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-30%);
+
+    border-radius:10px;  /*给div元素添加圆角的边框*/
+    box-shadow:0px 0px 10px rgba(17, 39, 59, 0.8);
+    border:1px solid rgba(17,39,59,1);
+
+    overflow:hidden;
+
+    /* 为元素指定的任何内边距和边框都将在已设定的宽度和高度内进行绘制。
+
+     通过从已设定的宽度和高度分别减去边框和内边距才能得到内容的宽度和高度。 */
+    box-sizing:border-box;
+
+    opacity:0;  /*设置 div 元素的不透明级别*/
+
+    transition:1s;  /*元素所有变化过程都可见*/
+}
+
+/*--------------------------------------------------------*/
+
+.login-box{
+    position:absolute;
+    height:100%;
+    width:100%;
+
+    background-color:rgba(17,39,59,0.8);
+    
+    /*transition 属性是一个简写属性，用于设置四个过渡属性：
+    transition-property     规定设置过渡效果的 CSS 属性的名称。
+    transition-duration     规定完成过渡效果需要多少秒或毫秒。
+    transition-timing-function     规定速度效果的速度曲线。
+    transition-delay           定义过渡效果何时开始。
+    注释：请始终设置 transition-duration属性，否则时长为 0，就不会产生过渡效果。*/
+    transition:.4s;
+
+    /*z-index 属性指定一个元素的堆叠顺序。
+    拥有更高堆叠顺序的元素总是会处于堆叠顺序较低的元素的前面。
+
+    z-index一定要和除了static之外的定位一起使用，否则将会没有用
+    如果父元素设置过z-index那么子元素与父元素的z-index是一样的*/
+    z-index:1;
+
+    transform-origin: 0 100%;/*设置旋转元素的基点位置*/
+}
+.sign-box {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(255, 255, 255, .8);
+
+    transform-origin: 0 100%;
+
+    /*旋转div元素*/
+    transform: rotate(90deg);
+
+    transition: .4s;
+    z-index: 1;
+}
+
+/* 共用的 */
+.apple-btn{
+    position:absolute;
+    height:15px;
+    width:65px;
+    top:3px;
+}
+/* 注册页面的apple-btn浮在右侧 */
+.sign-apple{
+    right:5px;
+}
+
+/* 设置apple-btn中的li(共用) */
+.apple-btn li{
+    /*表明list项前面没有什么修饰（一片空白）。
+    list前可有的修饰：
+    disc             默认值。实心圆 
+    circle           空心圆 
+    square           实心方块 
+    decimal          阿拉伯数字 
+    lower-roman      小写罗马数字 
+    upper-roman      大写罗马数字 
+    lower-alpha      小写英文字母 
+    upper-alpha      大写英文字母 
+    none             不使用项目符号*/
+    list-style:none;
+
+    /*position：absolute  绝对定位,是相对于浏览器的定位
+    position：absolute；
+    left:20px;
+    top:80px; 
+    这个容器始终位于距离浏览器左20px,距离浏览器上80px的这个位置。
+
+    position：relative 相对定位，是相对于前面的容器定位的。
+    这个时候不能用top left在定位。应该用margin。*/
+    position:relative;
+    height:15px;
+    width:15px;
+    border-radius:15px;
+    opacity:0;
+}
+
+/* 设置登录和注册界面小圆点的位置 */
+.login-apple li{
+    left: 5px;
+    float: left;
+}
+.sign-apple li {
+    right: 5px;
+    float: right;
+}
+
+/* :nth-child(n)选择器匹配父元素中的第 n 个子元素，元素类型没有限制 */
+li:nth-child(2){
+    margin:0px 2px;  /*上下  左右*/
+}
+.red-btn{
+    background-color:red;
+    /*transition和transform一起使用，表示旋转的速度和角度*/
+    transition:.3s;  
+    transform:translate(0,-50%);
+}
+.yellow-btn{
+    background-color: orange;
+    transition: 0.6s;
+    transform: translate(0,-50%);
+}
+.green-btn{
+    background-color: rgb(15,136,15);
+    transition:.9s;
+    transform:translate(0,-50%);
+}
+/* 设置对象在其鼠标悬停时的样式表属性。 */
+.container:hover .red-btn{
+    opacity: 1;   /*完全不透明*/
+    transform:translate(0,0);
+}
+.container:hover .yellow-btn {
+    opacity: 1;
+    transform: translate(0,0);
+}
+.container:hover .green-btn {
+    opacity: 1;
+    transform: translate(0,0);
+}
+/*------------------------------------------------*/
+/* title */
+.title{
+    margin-top:10px;
+    position:relative;
+    height:40px;
+    width:100%;
+    font-size: 30px;
+
+    /*justify-content 用于设置或检索弹性盒子元素在主轴（横轴）方向上的对齐方式。
+    align-items 属性定义flex子项在flex容器的当前行的侧轴（纵轴）方向上的对齐方式。*/
+    display:flex;  
+    justify-content:center;
+    align-items:center;
+
+    text-transform:uppercase;
+    font-weight:500;
+    letter-spacing:3px;
+    transition:.4s;
+}
+/* 注册页面的title不同于登录页面 */
+.sign-box .title{
+    text-shadow:0 0 10px rgba(200,200,200,.8);
+    font-weight:500;
+}
+.login-box .title{
+    color:white;
+}
+.container:hover .title{
+    font-size:20px;
+}
+/*--------------------------------------------*/
+/* 账号密码 */
+.container:hover .input{
+    transform:translate(0,-30%);
+}
+.input{
+    width:400px;
+    height:45px;
+    position:relative;
+    margin:40px auto;        /*-----注意下-------*/
+}
+input{
+    position:relative;
+    width:100%;
+    height:100%;
+    border:none;
+
+    /*https://www.w3school.com.cn/cssref/pr_outline.asp*/
+    outline:none;
+
+    padding-left:15px;
+    font-size:16px;
+    background-color:rgba(255,255,255,.4);
+    border-radius:45px;
+    transition:.4s;
+}
+
+/* :focus设置对象在成为输入焦点时的样式表属性。 */
+/* 点击用户名框时，用户名框会出现黑边 */
+.login-box input:focus{
+    box-shadow:0 0 10px rgba(1,1,1,.8);
+}
+
+/* 登录页面的用户名框样式 */
+.login-box input{
+    /* 光标的颜色为白色 */
+    caret-color:white;
+    color:rgba(255,255,255,.8);
+}
+.sign-box input{
+    box-shadow: 0 0 3px black;
+}
+/*---------------------------------------------------------*/
+/* 登录注册 */
+.btn{
+    height:50px;
+    width:160px;
+    position:relative;
+    margin:-10px auto;
+    background-color:rgba(0,0,0,.1);
+    border-radius:20px;
+    color:rgba(255,255,255,.4);
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    /* 光标为一只手 */
+    cursor:pointer;
+    transition:.4s;
+}
+.sign-box .btn {
+    color: #1e90ff;
+    background-color: rgba(200, 200, 200,.1);
+    transition:.5s;
+}
+
+.container:hover .btn{
+    height:30px;
+    width:90px;
+    transform:translate(0,-30%);
+    font-size:12px;
+}
+.sign-box:hover .btn{
+    color:white;
+    background-color:#1e90ff;
+}
+
+.login-btn:hover{
+    color:white;
+    background-color: #57606f;
+    box-shadow:rgba(0,0,0,.1);
+    text-shadow:0 0 2px rgba(0,0,0,.1);
+}
+/*--------------------------------------------------*/
+/* 去登录、去注册 */
+.change-box{
+    position:absolute;
+    height:0px;
+    width:100%;
+
+    /* 创建一个只有元素的部分区域可以显示的多边形 */
+    clip-path:polygon(100% 50%,50% 100%,100% 100%);
+
+    bottom:0px;
+    transition:.4s;
+}
+.container:hover .change-box{
+    height:200px;
+}
+.login-change {
+    background-color: rgba(255, 255, 255, .8);
+}
+.sign-change {
+    background-color: rgba(17, 39, 59, 0.8);
+}
+
+.change-btn{
+    position:absolute;
+    bottom:30px;
+    right:40px;
+    font-size:20px;
+
+    /* 看链接 */
+    display:none;
+
+    /* 字体粗细 */
+    font-weight:500;
+}
+.toLogin {
+    color: white;
+}
+/* 有点不懂??????????? */
+.container:hover .change-btn{
+    display:block;
+    text-shadow: 0px 0px 3px rgba(200, 200, 200, .8);
+    cursor: pointer;
+}
+
+
+
+
+
+
+/*--------------------------*/
+.container-show {
+    transform: translate(-50%,-50%) ;
+    opacity: 1;
+}
+.animate_login {
+    transform: rotate(-90deg);
+}
+
+.animate_sign {
+    transform: rotate(0deg) !important;
+}
+
+
+
+
+

@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>个人中心</title>
+    <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
+
+    <!--弹出界面的样式-->
+    <style>
+        .white_content {
+            /* display=none 为隐藏 */
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 50%;
+            height: 50%;
+            padding: 20px;
+            border: 5px solid orange;
+            background-color: white;
+            z-index: 1002;
+            overflow: auto;
+            /*居中显示*/
+            transform: translate(-50%, -50%);
+        }
+    </style>
+
+    <!--地图的js文件以及样式-->
+    <style type="text/css">
+        #l-map{height:300px;width:100%;}
+        #r-result{width:100%;}
+    </style>
+    <script type="text/javascript" src="//api.map.baidu.com/api?v=2.0&ak=qgMWgR1TTV3HUXjs2saUdIQcRCUPNyeG"></script>
+
+
+    <!--修改绑定信息的js代码-->
+    <script type="text/javascript">
+        //填写已经绑定的信息
+        $(document).ready(function () {
+            var message1=document.getElementById('message1').value
+            if(message1!=""){
+                alert(message1)
+            }
+
+            var college_name=document.getElementById('college_name').value
+            var department_name=document.getElementById('department_name').value
+            var profession_name=document.getElementById('profession_name').value
+            var identity_card=document.getElementById('identity_card').value
+            if(college_name!=""){
+                document.getElementById("college").innerText=college_name;
+            }
+            if(department_name!=""){
+                document.getElementById("department").innerText=department_name;
+            }
+            if(profession_name!=""){
+                document.getElementById("profession").innerText=profession_name;
+            }
+            if(identity_card!=""){
+                document.getElementById("identity").innerText=identity_card;
+            }
+        })
+
+        //修改绑定信息
+        function bangding() {
+            if (confirm("确认绑定？!")) {
+                return ture;
+            } else {
+                return false;
+            }
+
+        }
+    </script>
+
+    <!--院系/专业联动的js+ajax方法-->
+    <script type="text/javascript">
+
+        /*当学校的输入框失去焦点时（方法名懒得改了）*/
+        function select_onclick() {
+            code="";
+            $.ajax({
+                type:"get",
+                data:{"dictionary_code":code},
+                url: "http://127.0.0.1:8080/get_department_list",
+                success:function (data) {
+                    $("#one").empty()
+                    for (i in data){
+                        var options = "<option value=" + data[i].dictionary_code + ">"
+                            + data[i].depart_name + "</option>"
+                        $("#one").append(options);
+                    }
+                    /*调用  $("#one").change()函数*/
+                    $("#one").change()
+                }
+            })
+
+            //当第一个框改变时调用次函数实现二级联动
+            $("#one").change(function () {
+                code=$("#one").val()
+                $.ajax({
+                    type: "get",
+                    data: {"dictionary_code": code},
+                    url: "http://127.0.0.1:8080/get_department_list",
+                    success: function (data) {
+                        $("#two").empty()
+                        for (i in data) {
+                            var options = "<option value=" + data[i].dictionary_code + ">"
+                                + data[i].depart_name + "</option>"
+                            $("#two").append(options);
+                        }
+                    }
+                })
+            })
+        }
+
+        $(document).ready(function(){
+            //下拉框改变时
+            $('#one').change(function(){
+                //获取当前选项的文本
+                var rs=$(this).find("option:selected").text();
+                //修改隐藏域中的值
+                document.getElementById('departmentname').value=rs;
+
+            })
+
+            $('#two').change(function(){
+                //获取当前选项的文本
+                var rs=$(this).find("option:selected").text();
+                //修改隐藏域中的值
+                document.getElementById('professionname').value=rs;
+            })
+        })
+
+
+
+    </script>
+
+</head>
+<body>
+<input type="hidden" id="college_name" th:value="${session.user.getCollege_name()}"/>
+<input type="hidden" id="department_name" th:value="${session.user.getDepartment_name()}"/>
+<input type="hidden" id="profession_name" th:value="${session.user.getProfession_name()}"/>
+<input type="hidden" id="identity_card" th:value="${session.user.getIdentity_card()}"/>
+<input type="hidden" th:value="${message1}" id="message1">
+
+<ul>
+    <li><a href="/index" style="text-decoration:none;">首页</a></li>
+    <li><a style="text-decoration:none;">我的信息</a></li>
+    <li>
+        考试信息
+        <ul>
+            <li>
+                <a href="" style="text-decoration:none;">我的报名</a>
+            </li>
+            <li>
+                <a href="" style="text-decoration:none;">我的成绩</a>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a href="" style="text-decoration:none;">账户安全</a>
+    </li>
+</ul>
+<a href="layout">退出登录</a><br>
+
+
+<!--我的信息模块-->
+用户名：<div th:text="'【'+${type}+'】'+${session.user.getUser_name()}"></div>
+    <!--性别使用下拉框-->
+        <div>
+            性别:
+            <div th:text="${session.user.getGender()}"/>
+        </div>
+
+    <div>
+         学号/职工号:<div th:text="${session.user.getUser_id()}"/>
+    </div>
+
+    <div>
+         院校地址:<div id="college" th:text="'未绑定*'"></div>
+         院系：<div id="department" th:text="'未绑定*'"></div>
+         专业：<div id="profession" th:text="'未绑定*'"></div>
+        身份证:<div id="identity" th:text="'未绑定*'"></div>
+    </div>
+
+    <div>
+
+    </div>
+
+
+<button onclick="document.getElementById('light').style.display='block';">
+    修改绑定信息
+</button>
+
+
+<!--弹出框内容-->
+<div id="light" class="white_content">
+    
+    <form action="/bind_information" method="post" onsubmit="return bangding()">
+        <div>
+            <!--地图定位-->
+            <div id="l-map"></div>
+            <div id="r-result">查找院校:<input type="text" name="college_name" id="suggestId" size="20" style="width:150px;" onchange="select_onclick()" required="required"/></div>
+            <div id="searchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
+            <input type="hidden" value="" id="myValue"/>
+        </div>
+
+        <div>
+            <!--院系和专业 二级联动-->
+            院系：<div><select id="one" name="one">
+
+        </select></div>
+            <input name="department_name" id="departmentname" type="hidden">
+        </div>
+
+        <div>
+            <!--院系和专业 二级联动-->
+            专业：<div><select id="two" name="two" >
+
+        </select></div>
+            <input name="profession_name"id="professionname" type="hidden">
+        </div>
+        <div>
+            身份证:<input   name="identity_card"/>
+        </div>
+        <button type="submit">绑定</button>
+    </form>
+
+    <a href="javascript:void(0)"onclick="document.getElementById('light').style.display='none';">点击关闭</a>
+</div>
+<!--我的信息模块结束-->
+
+
+</body>
+</html>
+
+<!--有关地图定位的系列js方法-->
+<script type="text/javascript">
+    $("#suggestId").bind('input propertychange',function(){
+        //将下拉框显示在最高层(由于调用的是百度的api，所以对应自己的实际需求，应该改变下样式)
+        document.getElementById('tangram-suggestion--TANGRAM__1c-main').style.zIndex="9999";
+    });
+    // 百度地图API功能
+    function G(id) {
+        return document.getElementById(id);
+    }
+
+    var map = new BMap.Map("l-map");
+    map.centerAndZoom("北京",12);                   // 初始化地图,设置城市和地图级别。
+
+    var ac = new BMap.Autocomplete(    //建立一个自动完成的对象
+        {"input" : "suggestId"
+            ,"location" : map
+        });
+
+    ac.addEventListener("onhighlight", function(e) {  //鼠标放在下拉列表上的事件
+        var str = "";
+        var _value = e.fromitem.value;
+        var value = "";
+        if (e.fromitem.index > -1) {
+            value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+        }
+        str = "FromItem<br />index = " + e.fromitem.index + "<br />value = " + value;
+
+        value = "";
+        if (e.toitem.index > -1) {
+            _value = e.toitem.value;
+            value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+        }
+        str += "<br />ToItem<br />index = " + e.toitem.index + "<br />value = " + value;
+        G("searchResultPanel").innerHTML = str;
+    });
+
+    var myValue;
+    ac.addEventListener("onconfirm", function(e) {    //鼠标点击下拉列表后的事件
+        var _value = e.item.value;
+        myValue = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+        G("searchResultPanel").innerHTML ="onconfirm<br />index = " + e.item.index + "<br />myValue = " + myValue;
+        //将myValue的值储存在隐藏域中
+        document.getElementById("myValue").value=myValue
+        setPlace();
+    });
+
+    function setPlace(){
+        map.clearOverlays();    //清除地图上所有覆盖物
+        function myFun(){
+            var pp = local.getResults().getPoi(0).point;    //获取第一个智能搜索的结果
+            map.centerAndZoom(pp, 18);
+            map.addOverlay(new BMap.Marker(pp));    //添加标注
+        }
+        var local = new BMap.LocalSearch(map, { //智能搜索
+            onSearchComplete: myFun
+        });
+        local.search(myValue);
+    }
+</script>

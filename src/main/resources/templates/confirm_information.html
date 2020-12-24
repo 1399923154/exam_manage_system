@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>考试信息确认</title>
+</head>
+<body>
+
+    <table >
+        <tr>基本信息</tr>
+        <tr>
+            <td>考次名称</td>
+            <td th:if="${test_name}==cet">2021年上半年cet考试</td>
+            <td th:if="${test_name}==ncre">2021年03月全国计算机等级考试</td>
+        </tr>
+        <tr>
+            <td>报名状态</td>
+            <td th:if="${regist_state}==0"><strong style="color: red">未报名(或当前通行证账号非报名时账号)</strong></td>
+            <td th:if="${regist_state}==1"><strong style="color: red">已报名</strong></td>
+
+        </tr>
+    </table>
+    <button th:if="${regist_state}==0"><a th:href="@{'to_DetailsAgreement?test_name=' + ${test_name}}">开始报名</a></button>
+
+    <button th:if="${regist_state}==1"><a th:href="@{'to_regist_info?type='+${test_name}}">查看报名信息</a></button>
+
+</body>
+</html>

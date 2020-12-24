@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>报考信息页面</title>
+</head>
+<body>
+<div>
+    <div>警告：未支付订单一定时间后会自动删除以保存信息，请及时完成缴费！</div>
+    <div>
+        <table style="background-color: #487eb0" width="50%" height="150px">
+            <tr>
+                <td style="width: 30%">
+                    <img src="" style="background-color: #f1e9de" height="100px" width="70px">
+                </td>
+                <td style="background-color: #fbc531;width: 70%">
+                    <table>
+                        <tr>
+                            <td>姓名：</td>
+                            <td th:text="${session.user.getUser_name()}"></td>
+                        </tr>
+                        <tr>
+                            <td>性别：</td>
+                            <td th:text="${session.user.getGender()}"></td>
+                        </tr>
+                        <tr>
+                            <td>证件类型：</td>
+                            <td>中华人民共和国居民身份证</td>
+                        </tr>
+                        <tr>
+                            <td>证件号码：</td>
+                            <td th:text="${session.user.getIdentity_card()}"></td>
+                        </tr>
+                        <tr>
+                            <td>考试报名学校校区：</td>
+                            <td th:text="${session.user.getCollege_name()}"></td>
+                        </tr>
+                        <tr>
+                            <td>资格报名科目：</td>
+                            <td th:if="${type}==cet and ${qualify}==0">四级笔试，四级口语</td>
+                            <td th:if="${type}==cet and ${qualify}==1">四级笔试，四级口语，六级笔试，六级口语</td>
+                            <!--计算机等级考试之后再添加-->
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+        <div>
+            <div><span>学籍信息</span></div>
+            <div>
+                <table style="background-color: #487eb0" width="50%" >
+                    <tr>
+                        <td>学历：</td>
+                        <td>本科</td>
+                        <td>学制：</td>
+                        <td>6</td>
+                    </tr>
+                    <tr>
+                        <td>入学年份：</td>
+                        <td>18</td>
+                        <td>年级：</td>
+                        <td>11</td>
+                    </tr>
+                    <tr>
+                        <td>院系：</td>
+                        <td th:text="${session.user.getDepartment_name()}"></td>
+                        <td>专业：</td>
+                        <td th:text="${session.user.getProfession_name()}"></td>
+                    </tr>
+                </table>
+
+            </div>
+        </div>
+    </div>
+<div>
+    <div>报考信息</div>
+    <div th:each="item,itemitemlist:${registration_informationList}">
+        <table style="background-color: #f1e9de">
+            <tr>
+                <td>#</td>
+                <td>科目</td>
+                <td>费用</td>
+                <td>支付状态</td>
+                <td>报考方式</td>
+                <td>考点校区</td>
+                <td>操作</td>
+            </tr>
+            <tr>
+                <td th:text="${itemitemlist.index+1}">#</td>
+                <td th:text="${item.getRegist_name()}"></td>
+                <td th:text="30"></td>
+                <td><span th:if="${order_state}==0" style="color: red">未支付</span><span th:if="${order_state}==1">已支付</span></td>
+                <td>考生注册</td>
+                <td th:text="${session.user.getCollege_name()}"></td>
+                <td th:if="${order_state}==0"><button><a>支付</a></button></td>
+                <td th:if="${order_state}==1"><button disabled><a onclick="to_pay">支付</a></button></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+
+
+</div>
+</body>
+</html>

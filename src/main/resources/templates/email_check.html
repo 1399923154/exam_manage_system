@@ -69,7 +69,7 @@
 <input type="hidden" id="user_type" name="user_type" th:value="${user_type}">
 
 
-<form action="login" method="post" onsubmit="return to_check()">
+<form action="to_login" method="post" onsubmit="return to_check()">
     <input type="text" id="check_no" name="check_no" placeholder="请输入验证码" required>
     <!--通过js代码使用ajax调用后台去发送验证码-->
     <a  onclick="send_check_no()"><button>发送邮箱验证码</button></a>

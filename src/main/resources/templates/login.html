@@ -3,8 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <title>用户登录</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script type="text/javascript" src="js/style.js"></script>
+    <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            var message=document.getElementById("message").value;
+            if (message!=""){
+                alert(message)
+            }
+        })
+
+    </script>
 </head>
 <body>
+<!--隐藏域-->
+<input type="hidden" th:value="${message}" id="message">
+
     <div>
         <form action="check_login" method="post">
             <input type="text" name="user_id" placeholder="用户名" required>
@@ -12,9 +27,28 @@
             <input type="radio" name="user_type" value="0"  checked="checked" >学生
             <input type="radio" name="user_type" value="1"  style='margin-left:50px'/>老师
             <input type="radio" name="user_type" value="2"  style='margin-left:50px'/>管理员
-            <button type="submit"style="height: 50px;">login </button>
+            <button type="submit"style="height: 50px;" id="button" disabled>login </button>
         </form>
         <a href="/sign_in"><button>注册</button></a>
+    </div>
+
+    <!--滑动验证码-->
+    <div>
+        <div id="slideBar"></div>
+        <script type="text/javascript">
+            var dataList = ["0","1"];
+            var options = {
+                dataList: dataList,
+                success:function(){
+                    alert("验证成功！")
+                    document.getElementById("button").removeAttribute("disabled");
+                },
+                fail: function(){
+                    alert("验证失败！")
+                }
+            };
+            SliderBar("slideBar", options);
+        </script>
     </div>
 </body>
 </html>

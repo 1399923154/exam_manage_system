@@ -5,10 +5,64 @@ import java.util.Date;
 public class User_info {
     private int user_id;
     private String user_name;
-    private String pwd;
+    private String user_pwd;
+    private String gender;
     private int user_type;
     private Date join_time;
     private String email;
+    private String college_name;
+    private String department_name;
+    private String profession_name;
+    private String identity_card;
+
+
+    public String getUser_pwd() {
+        return user_pwd;
+    }
+
+    public void setUser_pwd(String user_pwd) {
+        this.user_pwd = user_pwd;
+    }
+
+    public String getIdentity_card() {
+        return identity_card;
+    }
+
+    public void setIdentity_card(String identity_card) {
+        this.identity_card = identity_card;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getCollege_name() {
+        return college_name;
+    }
+
+    public void setCollege_name(String college_name) {
+        this.college_name = college_name;
+    }
+
+    public String getDepartment_name() {
+        return department_name;
+    }
+
+    public void setDepartment_name(String department_name) {
+        this.department_name = department_name;
+    }
+
+    public String getProfession_name() {
+        return profession_name;
+    }
+
+    public void setProfession_name(String profession_name) {
+        this.profession_name = profession_name;
+    }
 
     public String getEmail() {
         return email;
@@ -43,13 +97,7 @@ public class User_info {
         this.user_name = user_name;
     }
 
-    public String getPwd() {
-        return pwd;
-    }
 
-    public void setPwd(String pwd) {
-        this.pwd = pwd;
-    }
 
     public int getUser_type() {
         return user_type;

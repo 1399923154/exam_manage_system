@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>报名信息采集页面</title>
+    <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
+
+    <script type="text/javascript">
+
+        function disagree() {
+            var con;
+            con=confirm("确认退出报名?"); //在页面上弹出对话框
+            if(con==true){
+                window.location.href="http://127.0.0.1:8080/to_test_register";
+            }
+            else{
+
+            }
+        }
+
+        function agree() {
+            var test_name=document.getElementById('test_name').value;
+            var qualify=document.getElementById('qualify').value;
+
+            //将请勾选接收按钮变为 同意按钮
+            var check=document.getElementById('agree')
+            if(check.checked==true){
+                document.getElementById('tongyi').innerHTML="同意"
+                //携带参数跳转到科目选择页面
+                $('#tongyi').attr('href','to_subject_choose?test_name='+test_name+'&qualify='+qualify);
+            }else {
+                document.getElementById('tongyi').innerHTML="请勾选接受"
+                $('#tongyi').attr('href','');
+            }
+        }
+    </script>
+</head>
+
+<body>
+<div>
+    <table style="background-color: #487eb0" width="50%" height="150px">
+        <tr>
+            <td style="width: 30%">
+                <img src="" style="background-color: #f1e9de" height="100px" width="70px">
+            </td>
+            <td style="background-color: #fbc531;width: 70%">
+                <table>
+                    <tr>
+                        <td>姓名：</td>
+                        <td th:text="${session.user.getUser_name()}"></td>
+                    </tr>
+                    <tr>
+                        <td>性别：</td>
+                        <td th:text="${session.user.getGender()}"></td>
+                    </tr>
+                    <tr>
+                        <td>证件类型：</td>
+                        <td>中华人民共和国居民身份证</td>
+                    </tr>
+                    <tr>
+                        <td>证件号码：</td>
+                        <td th:text="${session.user.getIdentity_card()}"></td>
+                    </tr>
+                    <tr>
+                        <td>考试报名学校校区：</td>
+                        <td th:text="${session.user.getCollege_name()}"></td>
+                    </tr>
+                    <tr>
+                        <td>资格报名科目：</td>
+                        <td th:if="${test_name}==cet and ${qualify}==0">四级笔试，四级口语</td>
+                        <td th:if="${test_name}==cet and ${qualify}==1">四级笔试，四级口语，六级笔试，六级口语</td>
+                        <!--计算机等级考试之后再添加-->
+                    </tr>
+                </table>
+
+            </td>
+        </tr>
+    </table>
+    <!--input隐藏框不需要修饰-->
+    <input type="hidden" id="test_name" th:value="${test_name}">
+    <input type="hidden" id="qualify" th:value="${qualify}">
+</div>
+
+<div>
+    <div>
+            <div><span>学籍信息</span></div>
+        <div>
+            <table style="background-color: #487eb0" width="50%" >
+            <tr>
+                <td>学历：</td>
+                <td>本科</td>
+                <td>学制：</td>
+                <td>6</td>
+            </tr>
+            <tr>
+                <td>入学年份：</td>
+                <td>18</td>
+                <td>年级：</td>
+                <td>11</td>
+            </tr>
+            <tr>
+                <td>院系：</td>
+                <td th:text="${session.user.getDepartment_name()}">计算机学院</td>
+                <td>专业：</td>
+                <td th:text="${session.user.getProfession_name()}">计算机科学与技术</td>
+            </tr>
+            </table>
+             <div>
+                <input type="checkbox" id="agree" onclick="agree()">
+                <span>我已检查和确认学籍与资格正确！</span>
+             </div>
+        </div>
+    </div>
+
+    <table>
+        <tbody>
+        <tr>
+            <td>
+                <button><a onclick="disagree()">不同意</a></button>
+            </td>
+            <td>
+                <button><a  id="tongyi">请勾选确认</a></button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

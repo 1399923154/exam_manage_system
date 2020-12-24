@@ -37,4 +37,11 @@ public class S_User_Info {
         flag=this.user_infoMapper.insert_into_user_info(user_id,user_name,user_pwd,join_time,user_type,email);
         return flag;
     }
+
+    //修改绑定信息
+    public int bind_infomation(int user_id, String college_name, String department_name, String profession_name, String identity_code) {
+        int flag=this.user_infoMapper.bind_infomation(user_id,college_name,department_name,profession_name,identity_code);
+
+        return flag;
+    }
 }

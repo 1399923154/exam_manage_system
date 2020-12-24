@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>cet科目选择</title>
+    <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
+
+    <script type="text/javascript">
+
+/*        function cet4change(obj) {
+            var res=document.getElementById('cet4')
+            alert(obj.getAttribute('id'))
+         }*/
+
+    //六级资格页面第2个复选框改变时，第二个框变为不可选状态
+        function cet6changge(checkbox) {
+            if(checkbox.checked==true){
+                $('#cet64').attr("disabled",true);
+            }else {
+                $('#cet64').attr("disabled",false);
+            }
+    }
+
+    //六级资格页面第一个复选框改变时，第二个框变为不可选状态
+
+        function cet64changge(checkbox) {
+            if(checkbox.checked==true){
+                $('#cet6').attr("disabled",true);
+            }else {
+                $('#cet6').attr("disabled",false);
+            }
+    }
+
+
+
+    //四级资格页面的提交
+        function sumbit0() {
+            var check=document.getElementById('cet4')
+            //alert(check.parentElement.parentElement.nextElementSibling.children[0].getAttribute('text'))
+            var regist_name=check.parentElement.parentElement.nextElementSibling.children[0].getAttribute('text');
+            if(check.checked==true){
+               //通过ajax 往registration_information插入当前页面所选的数据后，跳往下一个页面(报名信息总汇页面)
+                $.ajax({
+                    type:"get",
+                    data:{"regist_name":regist_name,"type":'cet',"exam_type":00},
+                    url: "http://127.0.0.1:8080/insert_into_regist_inform",
+                    success:function (data) {
+                        alert("保存成功！")
+                        //前往报名信息页面，（报名总览页面）
+                        window.location.href="http://127.0.0.1:8080/to_regist_info?type="+'cet';
+                    }
+                })
+
+            }
+        }
+
+        //有六级资格页面的提交
+        function sumbit1() {
+            var check1=document.getElementById('cet6')
+            var check2=document.getElementById('cet64')
+            var message1=check1.parentElement.parentElement.nextElementSibling.children[0].getAttribute('text');
+            var message2=check2.parentElement.parentElement.nextElementSibling.children[0].getAttribute('text');
+            if(check1.checked==true){
+                //通过ajax 往registration_information插入当前页面所选的数据后，跳往下一个页面(报名信息总汇页面)
+                $.ajax({
+                    type:"get",
+                    data:{"regist_name":message1,"type":'cet',"exam_type":10},
+                    url: "http://127.0.0.1:8080/insert_into_regist_inform",
+                    success:function (data) {
+                        alert("保存成功！")
+                        //前往报名信息页面，（报名总览页面）
+                        window.location.href="http://127.0.0.1:8080/to_regist_info"+'cet';
+                    }
+                })
+            }else if (check2.checked==true){
+                //通过ajax 往registration_information插入当前页面所选的数据后，跳往下一个页面(报名信息总汇页面)
+                $.ajax({
+                    type:"get",
+                    data:{"regist_name":message2,"type":'cet',"exam_type":00},
+                    url: "http://127.0.0.1:8080/insert_into_regist_inform",
+                    success:function (data) {
+                        alert("保存成功！")
+                        //前往报名信息页面，（报名总览页面）
+                        window.location.href="http://127.0.0.1:8080/to_regist_info"+'cet';
+                    }
+                })
+            }
+
+        }
+    </script>
+</head>
+<body>
+<input type="hidden" th:value="${qualify}">
+
+<div>
+    <div>学校通告：</div>
+    <table style="width: 50%;height: 200px;background-color: #f1e9de">
+        <tr style="height: 15px;background-color: #1E90FF"><td th:text="${session.user.getCollege_name()}"></td></tr>
+        <tr><td>对应学校管理员发布的通告</td></tr>
+    </table>
+</div>
+
+<div th:if="${qualify}==0">
+    <!-- <425-->
+    <div>
+        <div>英语笔试</div>
+        <table style="background-color: #f1e9de;width: 50%">
+            <tr>
+                <td>
+                    <div><input type="checkbox" disabled></div>
+                </td>
+                <td>
+                    <div>科目</div>
+                </td>
+                <td>
+                    <div>费用(元)</div>
+                </td>
+                <td>
+                    <div>报名学校</div>
+                </td>
+                <td>
+                    <div>余量</div>
+                </td>
+            </tr>
+            <tr id="66">
+                <td id="div2">
+                    <div id="div1"><input type="checkbox" id="cet4" value="00" onclick="cet4change(this)"></div>
+                </td>
+                <td id="div3">
+                    <div id="div4" text="(1)英语四级笔试"></div>
+                </td>
+                <td>
+                    <div>30元</div>
+                </td>
+                <td>
+                    <div th:text="${session.user.getCollege_name()}"></div>
+                </td>
+                <td>
+                    <div>有</div>
+                </td>
+            </tr>
+        </table>
+            <button><a onclick="sumbit0()">提交</a></button>
+    </div>
+</div>
+
+
+<div th:if="${qualify}==1">
+    <!-- >425-->
+    <div>
+        <div>英语笔试</div>
+        <table style="background-color: #f1e9de;width: 50%">
+            <tr>
+                <td>
+                    <div><input type="checkbox" disabled></div>
+                </td>
+                <td>
+                    <div>科目</div>
+                </td>
+                <td>
+                    <div>费用(元)</div>
+                </td>
+                <td>
+                    <div>报名学校</div>
+                </td>
+                <td>
+                    <div>余量</div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div><input type="checkbox" id="cet64" value="00" onclick="cet64changge(this)"></div>
+                </td>
+                <td>
+                    <div>(1)英语四级笔试</div>
+                </td>
+                <td>
+                    <div>30元</div>
+                </td>
+                <td>
+                    <div th:text="${session.user.getCollege_name()}"></div>
+                </td>
+                <td>
+                    <div>有</div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div><input type="checkbox" id="cet6" value="10" onclick="cet6changge(this)"></div>
+                </td>
+                <td>
+                    <div>(2)英语六级笔试</div>
+                </td>
+                <td>
+                    <div>30元</div>
+                </td>
+                <td>
+                    <div th:text="${session.user.getCollege_name()}"></div>
+                </td>
+                <td>
+                    <div>有</div>
+                </td>
+            </tr>
+        </table>
+        <button><a onclick="sumbit1()">提交</a></button>
+    </div>
+</div>
+
+
+</body>
+</html>
